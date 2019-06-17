@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
-import Details from '../ArtistDetails/ArtistDetails'
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup'
 import Form from 'react-bootstrap/Form'
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 import {Link} from 'react-router-dom'
+import FavoriteList from '../FavoriteList/FavoriteList';
 
 const dynamicSearch = gql `
 query getSearch($inputSearch: String!) {
@@ -27,7 +27,7 @@ class Home extends Component {
             userInput: '',
             userSearch:'',
             myArtistId:'',
-            detailsLaunched: true
+           favList: ["First test", "Second one", "Hey","Fuckers"],
         }
     }
 
@@ -58,6 +58,8 @@ class Home extends Component {
                     style={{margin: "5px"}}
                     >Search</Button>
                 </Form>
+                
+                <FavoriteList/>
                 {this.state.userSearch ? (
                     <Query query={dynamicSearch} variables={{inputSearch: this.state.userSearch}}>
                     {({loading, data, error}) => {
@@ -67,8 +69,6 @@ class Home extends Component {
                             <Link to={{pathname:'/ArtistDetails', state:{myid:artist.id}}}>
                             <ListGroup>
                             <ListGroup.Item key={artist.id}
-                            action onClick={()=> {this.setState({
-                            myArtistId:artist.id})}}
                             style={{margin:"5px"}}>
                                 {artist.name}
                             </ListGroup.Item> 
@@ -80,11 +80,9 @@ class Home extends Component {
                   ) : (
                       <p></p>
                   )}
-
             </div>
         )
     }
-
 }
 
 export default Home;
