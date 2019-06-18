@@ -7,7 +7,7 @@ import { ApolloProvider } from "react-apollo";
 import  Home from './components/Home/Home'
 import Navigation from './components/Layout/Navigation'
 import Store from './components/Store'
-import Details from './components/ArtistDetails/ArtistDetails'
+import Details from './components/Details/Details'
 
 const client = new ApolloClient({
   uri : "https://graphbrainz.herokuapp.com/"
@@ -20,44 +20,43 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      suce: [],
+      favList: [],
       
     }
   }
   
   
-  takeFavList = (arrayList) => {
-    this.setState({suce: arrayList})
+  takeFavListFromDetails = (arrayList) => {
+    this.setState({favList: [...this.state.favList, arrayList]})
   }
 
   render() {
 
-  return (
+    return (
       <>
-      <Store.Provider value={this.state.suce}>
-        <ApolloProvider client={client}>
-        <Navigation/>
-          <Router>
-            <Switch>
-              <Route exact path="/" component={Home}/>
-              <Route path="/ArtistDetails" 
-              render={(props) => <Details {...props} suceCallback={this.takeFavList}/>}
-              />
-            </Switch>
-          </Router>
-        </ApolloProvider>
+        <Store.Provider value={this.state.favList}>
+          <ApolloProvider client={client}>
+            <Navigation />
+            <Router>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route path="/ArtistDetails"
+                  render={(props) => <Details {...props} favListCallback={this.takeFavListFromDetails} />}
+                />
+              </Switch>
+            </Router>
+          </ApolloProvider>
         </Store.Provider>
-        { console.log("At the end", this.state.suce)}
+        {console.log("At the end", this.state.favList)}
       </>
-  );
+    );
   }
 }
 
 export default App;
 
 /*         
- So first of all for today : Get the data returned with react hook from Artist details
-  Implement the set and unset button to manage Favlist ( you can watch nomad coder video for that )
+  Implement the set and unset button to manage Favlist
   Create a sidebar to display fav list
   don't forget to handle the details  about the rendering if the user click directly to artist details check it with a condition
   also manage the display the view of all components and their elements inside the page with bootsrap
