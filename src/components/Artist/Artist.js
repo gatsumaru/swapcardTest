@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import gql from 'graphql-tag'
 import {Query} from "react-apollo"
-import {Button, ListGroup, Container, Row, Col} from 'react-bootstrap'
+import {Button, ListGroup, Container, Row, Col, Alert} from 'react-bootstrap'
 
 import FavoriteList from '../FavoriteList/FavoriteList';
 
@@ -30,31 +30,58 @@ class Artist extends Component {
     super(props)
     this.state = {
       dataFromQuery: [],
-      myArtistId: this.props.id
+      myArtistId: this.props.id,
     }
 
     console.log(this.props)
   }
 
+  
+  async removeFav(artistId) {
+    const favList = this.state.dataFromQuery
+    
+      for (var i = 0; i < favList.length; i++) {
+      console.log("value of i in the loop : ",  i)
+      if (favList[i] === artistId) {
+        favList.splice(i, 1)
+        console.log("value of i ", i, " value of favList[i] : ", favList[i] )
+      }
+    }
 
-  addFav(artistName) {
-    this.setState({
-      dataFromQuery: [...this.state.dataFromQuery, artistName]
+   /* favList.map(test => {
+      if (test === artistId) {
+        const index = favList.indexOf(artistId)
+        favList.splice(index, 1);
+      }
+    })*/
+
+    /*let lists = favList.filter(test => {
+      return test != artistId
+    })*/
+
+    // create a new test fucntion to sse how filet works
+
+    await this.setState({
+      dataFromQuery: favList
     })
-    //this.sendFavDataToDetails()
+    this.sendFavDataToDetails()
   }
+
+  async addFav(artistId) {
+    await this.setState({
+      dataFromQuery: [...this.state.dataFromQuery, artistId]
+    })
+
+    this.sendFavDataToDetails()
+  }
+
 
   sendFavDataToDetails = () => {
     this.props.favListCallback(this.state.dataFromQuery)
-    console.log("call back of Test Artist")
   }
 
   render() {
-    console.log("Value of dataFromQuery", this.state.dataFromQuery)
-
-
     return (
-
         <div>
           <Container>
             <Row>
@@ -65,9 +92,8 @@ class Artist extends Component {
                     if (error) return <span>Something happened</span>
                     return (
                       <div>
-                        {<Button onClick={() => this.addFav(data.node.name)}>Set as Favorite</Button>}
-                        {<Button onClick={() => this.sendFavDataToDetails()}>SendFavToDetails</Button>}
-
+                        {<Button onClick={() => this.addFav(data.node.id)}>Set as Favorite</Button>}
+                        <Button onClick={() => this.removeFav(data.node.id)}>Unset</Button>
                         <h2>Name : {data.node.name}</h2>
                         <h2>Country : {data.node.country}</h2>
                         <div>Releases : {data.node.releases.nodes.map(details => (
@@ -91,8 +117,6 @@ class Artist extends Component {
           </Container>
         </div>
       ) 
-
-    
   }
 
 }

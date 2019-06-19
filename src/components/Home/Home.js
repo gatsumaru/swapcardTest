@@ -29,7 +29,6 @@ class Home extends Component {
             userInput: '',
             userSearch: '',
             myArtistId: '',
-            favList: ["First test", "Second one", "Hey", "Fuckers"],
         }
     }
 
