@@ -29,94 +29,87 @@ class Artist extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dataFromQuery: [],
       myArtistId: this.props.id,
+      myFav: []
     }
 
+    let value = localStorage.getItem("myfav")
+    value = JSON.parse(value)
+    this.state.myFav = value
     console.log(this.props)
   }
 
+  removeFav(artistId) {
+    let value = localStorage.getItem("myfav")
+    value = JSON.parse(value)
+
+    let valuefilter = value.filter(t => t.id !== artistId)
+    localStorage.setItem("myfav", JSON.stringify(valuefilter))
+
+    this.setState({
+      myArtistId: artistId
+    })
+
+  }
   
-  async removeFav(artistId) {
-    const favList = this.state.dataFromQuery
-    
-      for (var i = 0; i < favList.length; i++) {
-      console.log("value of i in the loop : ",  i)
-      if (favList[i] === artistId) {
-        favList.splice(i, 1)
-        console.log("value of i ", i, " value of favList[i] : ", favList[i] )
-      }
+  addFav(artistId, myName) {
+
+    let myFav = [...this.state.myFav]
+    const favtoPush = {
+      id: artistId,
+      name: myName
     }
-
-   /* favList.map(test => {
-      if (test === artistId) {
-        const index = favList.indexOf(artistId)
-        favList.splice(index, 1);
-      }
-    })*/
-
-    /*let lists = favList.filter(test => {
-      return test != artistId
-    })*/
-
-    // create a new test fucntion to sse how filet works
-
-    await this.setState({
-      dataFromQuery: favList
+    myFav.push(favtoPush)
+    localStorage.setItem("myfav", JSON.stringify(myFav))
+    this.setState({
+      myArtistId: artistId
     })
-    this.sendFavDataToDetails()
-  }
-
-  async addFav(artistId) {
-    await this.setState({
-      dataFromQuery: [...this.state.dataFromQuery, artistId]
-    })
-
-    this.sendFavDataToDetails()
   }
 
 
-  sendFavDataToDetails = () => {
-    this.props.favListCallback(this.state.dataFromQuery)
-  }
 
   render() {
-    return (
-        <div>
-          <Container>
-            <Row>
-              <Col sm={8}>
-                <Query query={artistDetails} variables={{ artistId: this.state.myArtistId }}>
-                  {({ loading, data, error }) => {
-                    if (loading) return <span>Loading</span>
-                    if (error) return <span>Something happened</span>
-                    return (
-                      <div>
-                        {<Button onClick={() => this.addFav(data.node.id)}>Set as Favorite</Button>}
-                        <Button onClick={() => this.removeFav(data.node.id)}>Unset</Button>
-                        <h2>Name : {data.node.name}</h2>
-                        <h2>Country : {data.node.country}</h2>
-                        <div>Releases : {data.node.releases.nodes.map(details => (
-                          <ListGroup>
-                            <ListGroup.Item key={details.id}>
-                              {details.title}
-                            </ListGroup.Item>
-                          </ListGroup>
-                        ))}
-                        </div>
-                      </div>
-                    )
-                  }}
-                </Query>
-              </Col>
-              <Col sm={4}>
-                <FavoriteList />
-              </Col>
+    let value = localStorage.getItem("myfav")
+    value = JSON.parse(value)
+    let valuefilter = value.filter(t => t.id === this.state.myArtistId)
 
-            </Row>
-          </Container>
-        </div>
-      ) 
+    return (
+      <div>
+        <Container>
+          <Row>
+            <Col sm={8}>
+              <Query query={artistDetails} variables={{ artistId: this.state.myArtistId }}>
+                {({ loading, data, error }) => {
+                  if (loading) return <span>Loading</span>
+                  if (error) return <span>Something happened</span>
+                  return (
+                    <div>
+                      {valuefilter.length ? (
+                        <Button onClick={() => this.removeFav(data.node.id)}>Unset</Button>) : (
+                          <Button onClick={() => this.addFav(data.node.id, data.node.name)}>Set as Favorite</Button>)}
+                      <h2>Name : {data.node.name}</h2>
+                      <h2>Country : {data.node.country}</h2>
+                      <div>Releases : {data.node.releases.nodes.map(details => (
+                        <ListGroup>
+                          <ListGroup.Item key={details.id}>
+                            {details.title}
+                          </ListGroup.Item>
+                        </ListGroup>
+                      ))}
+                      </div>
+                    </div>
+                  )
+                }}
+              </Query>
+            </Col>
+            <Col sm={4}>
+              <FavoriteList />
+            </Col>
+
+          </Row>
+        </Container>
+      </div>
+    )
   }
 
 }

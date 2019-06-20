@@ -46,6 +46,7 @@ class Home extends Component {
     }
 
     render() {
+        //console.log("favList", localStorage.getItem('favList'))
         return (
             <div>
                 <Container>
