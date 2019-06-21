@@ -9,18 +9,14 @@ class Details extends Component {
     this.state = {
       myId: this.props.location.state.myid,
       myKey: this.props.location.key,
-      favList: [],
-
     }
-    console.log(this.props)
   }
 
   render() {
     let { myId } = this.state
     return (
       <div>
-        <h2>Artist details</h2>
-        {<Artist id={myId}></Artist>}
+        <Artist id={myId}></Artist>
       </div>
     )
   }

@@ -21,6 +21,7 @@ query getSearch($inputSearch: String!) {
     }
 }
 `
+
 class Home extends Component {
 
     constructor() {
@@ -35,7 +36,7 @@ class Home extends Component {
     onChange(event) {
         this.setState({
             userInput: event.target.value
-        }, () => console.log(this.state.userInput))
+        })
     }
 
     launchSearch(event) {
@@ -46,13 +47,12 @@ class Home extends Component {
     }
 
     render() {
-        //console.log("favList", localStorage.getItem('favList'))
         return (
             <div>
                 <Container>
                     <Row>
                         <Col sm={8}>
-                            <Form>
+                            <Form style={{ marginTop: "10px" }}>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Control type="artist"
                                         placeholder="Enter Artist Name"
@@ -93,5 +93,6 @@ class Home extends Component {
         )
     }
 }
+
 
 export default Home;

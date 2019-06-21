@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import './App.css';
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
@@ -24,7 +23,6 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <>
         <ApolloProvider client={client}>
@@ -42,11 +40,3 @@ class App extends Component {
 }
 
 export default App;
-
-/*         
-  don't forget to handle the details  about the rendering if the user click directly to artist details check it with a condition ? delete the link in navbar ? 
-  Add the Album subpage
-  Don't forget the Proptypes
-  How to send array of object
-  Add the remove button with splice map all the array and splice on the ID value
-*/
