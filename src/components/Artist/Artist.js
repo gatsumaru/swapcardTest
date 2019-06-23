@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import gql from 'graphql-tag'
 import {Query} from "react-apollo"
-import {Button, ListGroup, Container, Row, Col, Alert} from 'react-bootstrap'
+import {Button, ListGroup, Container, Row, Col} from 'react-bootstrap'
 import styled from 'styled-components'
 
 import FavoriteList from '../FavoriteList/FavoriteList';
+import MyAlert from '../MyAlert/MyAlert';
 
 const artistDetails = gql`
 query getArtistDetails($artistId: ID!)
@@ -25,14 +26,14 @@ query getArtistDetails($artistId: ID!)
   }
 `
 
-
 class Artist extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
       myArtistId: this.props.id,
-      myFav: []
+      myFav: [],
+      showAlert : false
     }
 
     let value = localStorage.getItem("myfav")
@@ -49,7 +50,7 @@ class Artist extends Component {
 
     this.setState({
       myArtistId: artistId
-    })
+    }, () => this.setState({showAlert:false}))
   }
 
   addFav(artistId, myName) {
@@ -63,10 +64,7 @@ class Artist extends Component {
     localStorage.setItem("myfav", JSON.stringify(myFav))
     this.setState({
       myArtistId: artistId
-    })
-
-    alert(myName + " has been added to your favorites")
-
+    }, () => this.setState({showAlert: true}))
   }
 
   render() {
@@ -86,10 +84,10 @@ class Artist extends Component {
                   if (error) return <span>Something happened</span>
                   return (
                     <div>
+                      {this.state.showAlert ? (<MyAlert name={data.node.name}/>) : (null)} 
                       {valueFilter.length ? (
                         <Button style={{ marginBottom: "10px" }} onClick={() => this.removeFav(data.node.id)}>Unset</Button>) : (
                           <Button style={{ marginBottom: "10px" }} onClick={() => this.addFav(data.node.id, data.node.name)}>Set as Favorite</Button>)}
-
                       <h2 style={{ fontSize: "20px" }}>Name : {data.node.name}</h2>
                       <h2 style={{ fontSize: "20px" }}>Country : {data.node.country}</h2>
                       <div>

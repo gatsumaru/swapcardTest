@@ -7,8 +7,7 @@ class Details extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      myId: this.props.location.state.myid,
-      myKey: this.props.location.key,
+      myId: this.props.location.state.myid
     }
   }
 

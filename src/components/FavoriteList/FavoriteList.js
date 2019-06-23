@@ -27,7 +27,7 @@ class FavoriteList extends Component {
                 </div>
             )
         }
-        return (<p>Nothing</p>)
+        return (null)
     }
 }
 

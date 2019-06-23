@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
@@ -12,31 +12,20 @@ const client = new ApolloClient({
 });
 
 
+function App() {
 
-class App extends Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      favList: [],
-    }
-  }
-
-  render() {
-    return (
-      <>
-        <ApolloProvider client={client}>
-          <Navigation />
-          <Router>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/ArtistDetails" component={Details} />
-            </Switch>
-          </Router>
-        </ApolloProvider>
-      </>
-    );
-  }
+  return (
+    <>
+      <ApolloProvider client={client}>
+        <Navigation />
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/ArtistDetails" component={Details} />
+          </Switch>
+        </Router>
+      </ApolloProvider>
+    </>
+  );
 }
-
 export default App;

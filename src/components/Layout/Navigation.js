@@ -13,7 +13,6 @@ class Navigation extends Component {
                     </Nav>
                 </Navbar>
             </div>
-
         )
     }
 }

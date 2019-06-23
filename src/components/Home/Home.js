@@ -52,7 +52,7 @@ class Home extends Component {
                 <Container>
                     <Row>
                         <Col sm={8}>
-                            <Form style={{ marginTop: "10px" }}>
+                            <Form style={{ marginTop: "40px" }}>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Control type="artist"
                                         placeholder="Enter Artist Name"
@@ -60,7 +60,7 @@ class Home extends Component {
                                         onChange={(event) => this.onChange(event)} />
                                 </Form.Group>
                                 <Button onClick={(event) => this.launchSearch(event)}
-                                    style={{ margin: "5px" }}
+                                    style={{margin: "5px"}}
                                 >Search</Button>
                             </Form>
 
@@ -93,6 +93,5 @@ class Home extends Component {
         )
     }
 }
-
 
 export default Home;
