@@ -81,9 +81,8 @@ class Home extends Component {
                                         ))
                                     }}
                                 </Query>
-                            ) : (
-                                    <p></p>
-                                )}
+                            ) : (null)
+                            }
                         </Col>
                         <Col sm={4}><FavoriteList /></Col>
                     </Row>

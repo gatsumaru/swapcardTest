@@ -17,7 +17,7 @@ class FavoriteList extends Component {
                         value.map(function (item, i) {
                             return (
                                 <ListGroup key={i}>
-                                    <ListGroup.Item style={{ margin: "5px" }}>
+                                    <ListGroup.Item key={i} style={{ margin: "5px" }}>
                                         {item.name}
                                     </ListGroup.Item>
                                 </ListGroup>
@@ -31,7 +31,7 @@ class FavoriteList extends Component {
     }
 }
 
-const Title = styled.h2 `
+const Title = styled.h2`
 font-family: 'Dancing Script', cursive;
 margin : 35px;
 text-align: center;

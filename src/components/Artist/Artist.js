@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import {Query} from "react-apollo"
 import {Button, ListGroup, Container, Row, Col} from 'react-bootstrap'
 import styled from 'styled-components'
+import {Link} from 'react-router-dom'
 
 import FavoriteList from '../FavoriteList/FavoriteList';
 import MyAlert from '../MyAlert/MyAlert';
@@ -88,10 +89,14 @@ class Artist extends Component {
                       {valueFilter.length ? (
                         <Button style={{ marginBottom: "10px" }} onClick={() => this.removeFav(data.node.id)}>Unset</Button>) : (
                           <Button style={{ marginBottom: "10px" }} onClick={() => this.addFav(data.node.id, data.node.name)}>Set as Favorite</Button>)}
+                      <Link to={{pathname: '/AlbumDetails', state:{myId: data.node.id}}}>
+                          <h2 style={{ fontSize: "20px" }}>Album Details</h2>
+                      </Link>
                       <h2 style={{ fontSize: "20px" }}>Name : {data.node.name}</h2>
                       <h2 style={{ fontSize: "20px" }}>Country : {data.node.country}</h2>
                       <div>
-                        <h2 style={{ fontSize: "20px" }}>Some Releases : </h2> {data.node.releases.nodes.map(details => (
+                        <h2 style={{ fontSize: "20px" }}>Some Releases : </h2> 
+                        {data.node.releases.nodes.map(details => (
                           <ListGroup>
                             <ListGroup.Item key={details.id}>
                               {details.title}
