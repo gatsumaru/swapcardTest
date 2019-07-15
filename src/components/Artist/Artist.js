@@ -70,6 +70,7 @@ class Artist extends Component {
 
   render() {
     let value = localStorage.getItem("myfav")
+    console.log("Value of value : ", value)
     value = JSON.parse(value)
     let valueFilter = value.filter(t => t.id === this.state.myArtistId)
 
